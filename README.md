@@ -1,54 +1,32 @@
-# Distributed Garbage Collection System in Go
+# Towards a Self Healing Runtime for Go
 
 ## Vision Statement
 
-The goal of this project is to implement an efficient and fault-tolerant **Distributed Garbage Collection (GC)** system for a **microservices-based environment**. The system will handle the reclamation of unused memory and resources across distributed nodes (or services) to **optimize system performance** and **prevent memory leaks**.
+Concurrency is a core feature of the Go programming language, enabling developers to efficiently utilize multi-core processors. However, common concurrency issues such as deadlocks, race conditions, and goroutine leaks can severely impact system reliability. The goal of this project is to first develop a deep understanding of Go’s concurrency model, benchmark different concurrency mechanisms, and ultimately build a self-healing runtime tool capable of detecting and recovering from concurrency issues dynamically.
 
-## Background
+## Goals & Objectives
 
-Distributed systems, especially microservices, present **complex memory management challenges** due to the decentralized nature of resources. In such systems, garbage collection (GC) must be carefully designed to ensure the following:
-
-- **Efficient use of system memory.**
-- **Minimal disruption to running services.**
-- **Fault tolerance and system resilience.**
-
-This project aims to evaluate different **distributed garbage collection strategies** and implement a system that can manage memory across nodes while addressing these challenges.
-
-## Goal and Objectives
-
-- Develop a **functional, scalable distributed garbage collection system** with a clear understanding of the strengths and weaknesses of each strategy in a **microservices architecture**.
-- Provide **detailed performance benchmarks** to guide the selection of the best **garbage collection strategy** for specific use cases.
+- Gain proficiency in Go’s concurrency model, including goroutines, channels, and synchronization primitives.
+- Benchmark the performance of different concurrency mechanisms (e.g., mutexes, channels, atomic operations).
+- Develop an automated system to detect and recover from concurrency issues like deadlocks, race conditions, and goroutine leaks.
+- Evaluate the effectiveness of the self-healing runtime through empirical analysis.
 
 ## Project Plan
 
-### Research & Design
+### Phase 1: Learn Go Programming Language
 
-- Study **Reference Counting, Mark-and-Sweep, Epoch-based GC, and Distributed Tracing**.
-- Define **system architecture** (e.g., microservices, messaging protocols).
-- Choose tools & technologies (**Python/Go, gRPC/Kafka, Docker/Kubernetes**).
+### Phase 2: Learning Go’s Concurrency Model
+- Goroutines
+- Channels (buffered and unbuffered)
+- Implement simple programs to understand common pitfalls such as race conditions, deadlocks, and starvation.
 
-### Prototype Development
+### Phase 3: Benchmarking Go’s Concurrency Mechanisms
+- Develop a benchmarking suite
+- Goroutine scheduling behavior under high contention
+- Impact of goroutine leaks on memory usage
 
-- Implement a **basic distributed GC system**.
-- Set up **inter-node communication** for reference tracking.
-- Perform **initial testing** for correctness and performance.
-
-### Implement Additional Strategies
-
-- Extend the system to include **Mark-and-Sweep** and **Epoch-based GC**.
-- Optimize **synchronization and memory management techniques**.
-- Begin **benchmarking** for **latency, memory usage, and overhead**.
-
-### Evaluation & Finalization
-
-- Compare all implemented strategies using **test workloads**.
-- Identify **trade-offs** in performance, scalability, and fault tolerance.
-- Document **findings, challenges, and potential improvements**.
-
-## Technologies
-
-- **Programming Languages:** Python, Go, or Java
-- **Microservices Orchestration:** Kubernetes (K3s)
-- **Inter-Service Communication:** gRPC, Kafka
-- **Monitoring & Logging:** Prometheus, Grafana, ELK Stack
-- **Benchmarking Tools:** Locust, JMeter, Custom Profiling Scripts
+### Phase 4: Designing a Self-Healing Runtime
+- **Deadlock Detection & Recovery**
+  - Use timeouts and forced unlocking strategies to resolve deadlocks
+- **Goroutine Leak Detection**
+- Implement the self-healing runtime as a Go library.
