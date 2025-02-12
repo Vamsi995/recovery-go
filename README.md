@@ -13,20 +13,25 @@ Concurrency is a core feature of the Go programming language, enabling developer
 
 ## Project Plan
 
-### Phase 1: Learn Go Programming Language
+### ✅ | Phase 1: Learn Go Programming Language
 
-### Phase 2: Learning Go’s Concurrency Model
-- Goroutines
-- Channels (buffered and unbuffered)
-- Implement simple programs to understand common pitfalls such as race conditions, deadlocks, and starvation.
+### ⬜️ | Phase 2: Benchmarking Go’s Concurrency Mechanisms
+- Contrast Go Concurrency with other languages like C++, Java
+  - Thread/Goroutine Creation Time:	The language runtime manages thread spawning and scheduling.
+  - Context Switching Overhead:	Go's cooperative scheduler vs. OS-managed preemptive scheduling (C++/Java).
+  - Synchronization Performance: How runtime-managed mutexes, atomic operations, and channels perform.
+  - Memory Usage (Heap & Stack Growth):	Goroutine stack management (grows dynamically) vs. fixed stacks in C++/Java.
+  - Garbage Collection Impact: Go & Java have GC
+  - Scalability Test (100K Goroutines vs Threads): M:N Goroutine scheduling vs OS threading scalability.
 
-### Phase 3: Benchmarking Go’s Concurrency Mechanisms
-- Develop a benchmarking suite
-- Goroutine scheduling behavior under high contention
-- Impact of goroutine leaks on memory usage
-
-### Phase 4: Designing a Self-Healing Runtime
+### ⬜️ | Phase 3: Designing a Self-Healing Runtime
 - **Deadlock Detection & Recovery**
   - Use timeouts and forced unlocking strategies to resolve deadlocks
+  - Can we develop a runtime ebpf application here that monitors Go's goroutine threads?
 - **Goroutine Leak Detection**
-- Implement the self-healing runtime as a Go library.
+  - Implement the self-healing runtime as a Go library.
+
+
+
+
+
