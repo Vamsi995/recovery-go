@@ -1,16 +1,21 @@
 # Concurrency in Go Runtime
 
-Go is a programming language that utilizes light weight concurrency units called go routines to achieve concurrency. Like other programming lanugages the runtime is responsible for scheduling the execution of these goroutines. Go follows the CSP concurrency model, unlike other traditional programming lanugages like C++, Java which use threading based concurrency model.
-
+Go is a programming language that utilizes lightweight concurrency units called goroutines to achieve concurrency. Unlike traditional programming languages such as C++ and Java, which rely on a threading-based concurrency model, Go follows the Communicating Sequential Processes (CSP) concurrency model. The Go runtime is responsible for scheduling the execution of these goroutines efficiently.
 
 
 ## CSP (Communicating Sequential Processes) Concurrency Model
 
-Concurrency has the traditional problem of sharing memory across different processes/threads. Memory sharing is a non-deterministic problem because the execution of the concurrent tasks have no pre-determined order, which infact makes it harder to debug, reproduce errors. The thread based concurrency model solves most of these issues using mutexes/locks. 
+Concurrency introduces challenges in managing shared memory across different processes or threads. The non-deterministic execution order of concurrent tasks makes debugging and reproducing errors difficult. Traditional thread-based concurrency models address these issues using mutexes and locks. However, these mechanisms can lead to data races, where multiple threads access a shared resource simultaneously, or deadlocks, where threads wait indefinitely for resource access.
 
-Traditional Programming models have concurrency with shared memory and using locks, but in CSP each process/thread does not share memory but instead communicate with each other using channels which are like pipes in Linux.
+The CSP concurrency model mitigates these problems by eliminating direct memory sharing. Instead of threads sharing memory and requiring synchronization mechanisms, CSP facilitates communication between concurrent processes through channels. Channels function similarly to Linux pipes, enabling safe data exchange without explicit locking.
 
-dont communicate by sharing memory, but share memory by communicating
+A core philosophy of Go's concurrency model is:
+
+> "Don't communicate by sharing memory; instead, share memory by communicating."
+
+This paradigm simplifies concurrent programming by reducing synchronization complexity and minimizing race conditions, making Go an excellent choice for building scalable and efficient concurrent applications.
+
+
 
 
 ## Concurrency vs Parallelism - What is the difference?
