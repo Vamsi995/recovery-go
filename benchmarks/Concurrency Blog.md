@@ -93,3 +93,7 @@ Go scheduler implements work stealing threads, i.e if a thread is idle, it can s
 #### Fairness & Preemption
 
 FIFO local runqueues expose a problem of fairness, which deals with a single go routine taking up too much time on the thread, i.e a resource hog which can starve all the other go routines in the local runqueue. The way to solve this is through preemption just like OS thread preemption. There are two types Co-operative Preemption, & Non Co-operative Preemption. In co-operative preemption we trust the execution unit to give up control after some period of time. But this is not always the case, so non-cooperative preemption is used in such scenarios where we use the concepts of timeslice, and preempt the go routine after running for this timeslice. In the Go Runtime this timeslice is of 10ms, and is initiated by SIGURG signal called by the sysmon daemon go routine periodically.
+
+
+#### Work Stealing of Go Routines
+First check local runqueue, then if empty, check global runqueue, then take your share of go routines, if global runqueue is empty, steal from netpoller (here netpoller is a buffer of go routines waiting on network IO), if netpoller is empty, steal from other processor, pick random P -> if work available, steal half of it. 
