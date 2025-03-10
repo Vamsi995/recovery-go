@@ -97,3 +97,17 @@ FIFO local runqueues expose a problem of fairness, which deals with a single go 
 
 #### Work Stealing of Go Routines
 First check local runqueue, then if empty, check global runqueue, then take your share of go routines, if global runqueue is empty, steal from netpoller (here netpoller is a buffer of go routines waiting on network IO), if netpoller is empty, steal from other processor, pick random P -> if work available, steal half of it. 
+
+
+
+
+
+
+#### Approach
+
+1. Have a priority number on the processors struct
+2. Long running go routines -> running for more than one timeslice
+3. Short running go routines -> finish in one timeslice
+4. Once you preempt give it to the processor above you
+5. You can only steal work from the processor below you
+6. It will go to the global queue once the parent finished the time slice
