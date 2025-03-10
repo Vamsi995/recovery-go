@@ -1,37 +1,31 @@
-# Towards a Self Healing Runtime for Go
+# Generational Go Runtime Scheduler
 
-## Vision Statement
+## Overview
+This project modifies the Go runtime scheduler to divide the `allp` array (which holds processor structures, `P`) into two halves:
+- The **first half** is marked as handling **short-running tasks**.
+- The **second half** is marked as handling **long-running tasks**.
 
-Concurrency is a core feature of the Go programming language, enabling developers to efficiently utilize multi-core processors. However, common concurrency issues such as deadlocks, race conditions, and goroutine leaks can severely impact system reliability. The goal of this project is to first develop a deep understanding of Go’s concurrency model, benchmark different concurrency mechanisms, and ultimately build a self-healing runtime tool capable of detecting and recovering from concurrency issues dynamically.
+This enhancement aims to improve scheduling efficiency by allowing better workload distribution and preventing long-running tasks from blocking short-running ones.
 
-## Goals & Objectives
+## Key Modifications
+### Changes in `procresize()`
+- `allp` is divided into two groups.
+- New fields `shortRunning` and `longRunning` are added to `P`.
+- The first `nprocs/2` Ps are flagged as `shortRunning = 1`.
+- The last `nprocs/2` Ps are flagged as `longRunning = 1`.
 
-- Gain proficiency in Go’s concurrency model, including goroutines, channels, and synchronization primitives.
-- Benchmark the performance of different concurrency mechanisms (e.g., mutexes, channels, atomic operations).
-- Develop an automated system to detect and recover from concurrency issues like deadlocks, race conditions, and goroutine leaks.
-- Evaluate the effectiveness of the self-healing runtime through empirical analysis.
+### Potential Next Steps
+- Modify scheduling logic to prioritize short-running tasks.
+- Implement different scheduling policies for each category.
+- Optimize load balancing and task migration between `P`s.
 
-## Project Plan
-
-### ✅ | Phase 1: Learn Go Programming Language
-
-### ⬜️ | Phase 2: Benchmarking Go’s Concurrency Mechanisms
-- Contrast Go Concurrency with other languages like C++, Java
-  - Thread/Goroutine Creation Time:	The language runtime manages thread spawning and scheduling.
-  - Context Switching Overhead:	Go's cooperative scheduler vs. OS-managed preemptive scheduling (C++/Java).
-  - Synchronization Performance: How runtime-managed mutexes, atomic operations, and channels perform.
-  - Memory Usage (Heap & Stack Growth):	Goroutine stack management (grows dynamically) vs. fixed stacks in C++/Java.
-  - Garbage Collection Impact: Go & Java have GC
-  - Scalability Test (100K Goroutines vs Threads): M:N Goroutine scheduling vs OS threading scalability.
-
-### ⬜️ | Phase 3: Designing a Self-Healing Runtime
-- **Deadlock Detection & Recovery**
-  - Use timeouts and forced unlocking strategies to resolve deadlocks
-  - Can we develop a runtime ebpf application here that monitors Go's goroutine threads?
-- **Goroutine Leak Detection**
-  - Implement the self-healing runtime as a Go library.
-
-
-
-
-
+## Setup Instructions
+### Clone the Go Source Code
+```sh
+git clone https://go.googlesource.com/go
+cd go/src
+```
+### Build the modified Go Runtime
+```sh
+GOROOT=$(pwd) ./bin/go run your_test_program.go
+```
