@@ -5,19 +5,14 @@ This project modifies the Go runtime scheduler to divide the `allp` array (which
 - The **first half** is marked as handling **short-running tasks**.
 - The **second half** is marked as handling **long-running tasks**.
 
-This enhancement aims to improve scheduling efficiency by allowing better workload distribution and preventing long-running tasks from blocking short-running ones.
+This enhancement aims to improve scheduling efficiency by allowing better workload distribution and preventing deprioritization of long-running tasks.
 
-## Key Modifications
-### Changes in `procresize()`
-- `allp` is divided into two groups.
-- New fields `shortRunning` and `longRunning` are added to `P`.
-- The first `nprocs/2` Ps are flagged as `shortRunning = 1`.
-- The last `nprocs/2` Ps are flagged as `longRunning = 1`.
 
-### Potential Next Steps
-- Modify scheduling logic to prioritize short-running tasks.
-- Implement different scheduling policies for each category.
-- Optimize load balancing and task migration between `P`s.
+![unnamed](https://github.com/user-attachments/assets/7a117629-d278-4329-a01f-2153bc5f92ff)
+
+
+![unnamed (1)](https://github.com/user-attachments/assets/5f7bb2c8-bbbd-45f8-a080-81848d9bc6fc)
+
 
 ## Setup Instructions
 ### Clone the Go Source Code
@@ -29,3 +24,7 @@ cd go/src
 ```sh
 GOROOT=$(pwd) ./bin/go run your_test_program.go
 ```
+
+![unnamed (2)](https://github.com/user-attachments/assets/1bd10ce8-058b-48ad-a05b-98898c1966bb)
+
+![unnamed (3)](https://github.com/user-attachments/assets/37487243-6480-4f80-b424-604613074c26)
