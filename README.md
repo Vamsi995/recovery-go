@@ -1,4 +1,4 @@
-# Generational Go Runtime Scheduler
+# Are your Go Routines Treated Unfairly?
 
 ## Overview
 This project modifies the Go runtime scheduler to divide the `allp` array (which holds processor structures, `P`) into two halves:
