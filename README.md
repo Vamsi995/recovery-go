@@ -1,13 +1,20 @@
 # Are Your Go Routines Treated Unfairly?
 
-This project investigates fairness in the Go runtime scheduler and proposes modifications to improve scheduling for long-running goroutines. Our modifications introduce alternative scheduling policies to address starvation issues in Go's concurrency model.
+This project investigates fairness in the Go runtime scheduler and proposes modifications to improve scheduling for long-running goroutines. Our modifications introduce alternative scheduling policies to address starvation issues in Go's concurrency model. We highlight two key problems in Go's runtime scheduler:
+
 
 <img width="1288" alt="runtimeproc" src="https://github.com/user-attachments/assets/89a203e8-dab2-46ca-83ff-49a7299401d8" />
 
 
 ## 📌 Overview
 
-The Go runtime scheduler is responsible for efficiently distributing goroutines across logical processors. However, we observed that long-running goroutines can suffer from starvation when preempted and placed back into the global run queue. This project presents scheduling enhancements to mitigate unfair scheduling and improve overall performance.
+The Go runtime scheduler is responsible for efficiently distributing goroutines across logical processors. However, we observed that long-running goroutines can suffer from starvation when preempted and placed back into the global run queue. This project presents scheduling enhancements to mitigate unfair scheduling and improve overall performance. We highlighted the two key problems in long running go routines:
+- Long running go routines once preempted are kept back in the global runqueue, which
+then have to wait for one of the local queue to be empty to be pulled back into the logical
+processor’s local queue. This in a way is causing a starvation on long running go routines
+that execute for multiple time slices.
+- Additionally when most of the processors preempt the long running go routines at once,
+they have to contend for the global run queue lock.
 
 ## 🚀 Modifications to the Go Runtime
 
@@ -69,9 +76,15 @@ We propose three key modifications to Go’s scheduling mechanism:
 | *Average Scheduler Wait Times per Go Routine in (s)* |
 
 
- Solarized dark                                                                       |  Solarized Ocean
-:------------------------------------------------------------------------------------:|:-------------------------:
-![](https://github.com/user-attachments/assets/1bd10ce8-058b-48ad-a05b-98898c1966bb)  |  ![](https://github.com/user-attachments/assets/37487243-6480-4f80-b424-604613074c26)
+| ![space-1.jpg](https://github.com/user-attachments/assets/1bd10ce8-058b-48ad-a05b-98898c1966bb) | 
+|:--:| 
+| *Global & Local Runqueue Sizes in normal operation* |
+
+
+| ![space-1.jpg](https://github.com/user-attachments/assets/37487243-6480-4f80-b424-604613074c26) | 
+|:--:| 
+| *Global & Local Runqueue Sizes in phase splitting runtime scheduler* |
+
 
 
 ## 🔧 How to Build & Run
@@ -114,9 +127,8 @@ Yup this works like magic, no need to manually build the whole sourcefile using 
 
 - 🎥 [Demo Video](https://drive.google.com/file/d/1lpu5qHpndmcb8LV8V11Wor_UzPE_Gut8/view)
 
+## Contributors
 
+- [Sai Vamsi Alisetti](https://github.com/Vamsi995)
+- [Abhishek Kumar](https://github.com/Abhi12122000)
 
-
-![unnamed (2)]()
-
-![unnamed (3)]()
