@@ -1,6 +1,6 @@
 # Are Your Go Routines Treated Unfairly?
 
-This project investigates fairness in the Go runtime scheduler and proposes modifications to improve scheduling for long-running goroutines. Our modifications introduce alternative scheduling policies to address starvation issues in Go's concurrency model. We highlight two key problems in Go's runtime scheduler:
+This project investigates fairness in the Go runtime scheduler and proposes modifications to improve scheduling for long-running goroutines. Our modifications introduce alternative scheduling policies to address starvation issues in Go's concurrency model.
 
 
 <img width="1288" alt="runtimeproc" src="https://github.com/user-attachments/assets/89a203e8-dab2-46ca-83ff-49a7299401d8" />
